@@ -12,3 +12,55 @@
  * NOTE:
  * Your results should not contain any duplicate titles.
  */
+
+-- no F in title
+SELECT DISTINCT title 
+FROM film 
+WHERE title NOT ILIKE '%F%'
+
+EXCEPT
+
+-- F in actor name
+SELECT DISTINCT title 
+FROM film 
+JOIN film_actor USING (film_id) 
+JOIN actor USING (actor_id) 
+WHERE 
+    first_name ILIKE '%F%' 
+    OR 
+    last_name ILIKE '%F%'
+
+EXCEPT
+
+-- F in customer name
+SELECT DISTINCT title 
+FROM film 
+JOIN inventory USING (film_id) 
+JOIN rental USING (inventory_id) 
+JOIN customer USING (customer_id) 
+WHERE
+    customer.first_name ILIKE '%F%'
+    OR
+    customer.last_name ILIKE '%F%'
+
+EXCEPT
+
+-- F in street, city, country
+SELECT DISTINCT title
+FROM film
+JOIN inventory USING (film_id)
+JOIN rental USING (inventory_id)
+JOIN customer USING (customer_id)
+JOIN address USING (address_id)
+JOIN city USING (city_id)
+JOIN country USING (country_id)
+WHERE
+    address.address ILIKE '%F%'
+    OR
+    address.address2 ILIKE '%F%'
+    OR
+    city.city ILIKE '%F%'
+    OR
+    country.country ILIKE '%F%'
+
+ORDER BY title;
