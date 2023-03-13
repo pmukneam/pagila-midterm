@@ -26,9 +26,9 @@ FROM film
 JOIN film_actor USING (film_id) 
 JOIN actor USING (actor_id) 
 WHERE 
-    first_name ILIKE '%F%' 
+    actor.first_name ILIKE '%F%' 
     OR 
-    last_name ILIKE '%F%'
+    actor.last_name ILIKE '%F%'
 
 EXCEPT
 
